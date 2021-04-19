@@ -1,2 +1,0 @@
-include ':app'
-rootProject.name = "[PIS]_CRUD_Application"
