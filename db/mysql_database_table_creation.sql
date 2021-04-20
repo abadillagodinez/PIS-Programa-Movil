@@ -5,9 +5,9 @@ CREATE SCHEMA `Programa Movil` ;
 USE `Programa Movil`;
 
 -- Crea una tabla para el formulario a llenar con nombre, apellido y edad
-CREATE TABLE `Programa Movil`.`Formulario` (
-  `idFormulario` INT NOT NULL,
-  `Nombre` VARCHAR(45) NOT NULL,
-  `Apellido` VARCHAR(45) NOT NULL,
-  `Edad` INT NOT NULL,
-  PRIMARY KEY (`idFormulario`));
+CREATE TABLE Formulario (
+  `idForm` INT NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(45) NOT NULL,
+  `LastName` VARCHAR(45) NOT NULL,
+  `Age` INT NOT NULL,
+  PRIMARY KEY (`idForm`));

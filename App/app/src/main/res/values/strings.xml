@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CRUD App</string>
+    <string name="tab_text_1">Create</string>
+    <string name="tab_text_2">Read</string>
+    <string name="tab_text_3">Update</string>
+    <string name="tab_text_4">Delete</string>
+</resources>
