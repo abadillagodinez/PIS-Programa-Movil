@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.example.crudapp.Modelo.SqlServerConnection;
 import com.example.crudapp.tabControllers.CreateTab;
 import com.example.crudapp.tabControllers.DeleteTab;
 import com.example.crudapp.R;

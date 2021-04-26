@@ -50,11 +50,12 @@
                 android:id="@+id/btnCreate"
                 android:layout_width="300dp"
                 android:layout_height="60dp"
-                android:layout_marginTop="50dp"
                 android:layout_gravity="center"
-                android:textColor="@color/black"
+                android:layout_marginTop="50dp"
                 android:backgroundTint="#03a9f4"
-                android:text="Crear"/>
+                android:onClick="create"
+                android:text="Crear"
+                android:textColor="@color/black" />
         </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

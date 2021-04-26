@@ -13,75 +13,76 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.crudapp.*;
+import com.example.crudapp.Modelo.MySqlConnection;
+import com.example.crudapp.Modelo.SqlServerConnection;
+
 import android.view.View.OnClickListener;
 
 import java.sql.SQLException;
 
 public class CreateTab extends Fragment {
     private View view;
-    private AlertDialog.Builder builder;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         view = inflater.inflate(R.layout.create_layout,container,false);
-        Button btnCreate = (Button) view.findViewById(R.id.btnCreate);
+        Button btnCreate = view.findViewById(R.id.btnCreate);
 
         btnCreate.setOnClickListener(new OnClickListener()
         {
             @Override
             public void onClick(View v) {
                 EditText txfName = (EditText) view.findViewById(R.id.txfCreateName);
-                System.out.println(txfName);
                 EditText txfLastName = (EditText) view.findViewById(R.id.txfCreateLastName);
                 EditText txnsAge = (EditText) view.findViewById(R.id.txnsCreateAge);
-                if (txnsAge.getText().toString().equals("")){
-                    txnsAge.setError("Ingrese una edad que pertenesca al rango [1-125]");
-                } else {
-                    int age = Integer.valueOf(txnsAge.getText().toString());
-                    try {
-                        insertOnDataBase(txfName, txfLastName, txnsAge);
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    }
+                if (verifyData(txfName, txfLastName, txnsAge)){
+                    insertOnDataBase(txfName,txfLastName,txnsAge);
                 }
             }
         });
         return view;
     }
 
-    private void insertOnDataBase(EditText txfName, EditText txfLastName, EditText txnsAge) throws SQLException {
-        String name = txfName.getText().toString();
-        String lastName = txfLastName.getText().toString();
-        int age = 0;
-        try {
-            age = Integer.valueOf(txnsAge.getText().toString());
-        } catch (Exception e){
-            txnsAge.setError("Ingrese una edad que pertenesca al rango [1-125]");
+    public boolean verifyData(EditText pTxfName, EditText pTxfLastName, EditText pTxnsAge){
+        boolean result = false;
+        String name = pTxfName.getText().toString();
+        String lastName = pTxfLastName.getText().toString();
+        String age = pTxnsAge.getText().toString();
+        if(name.equals("")){
+            pTxfName.setError("Ingrese un nombre.");
+            return result;
+        } else if(lastName.equals("")){
+            pTxfLastName.setError("Ingrese un apellido.");
+            return result;
+        } else if(age.equals("")){
+            pTxnsAge.setError("Ingrese una edad.");
+            return result;
+        } else if(!(age.equals(""))){
+            int numberAge = Integer.parseInt(age);
+            if(numberAge > 125 || numberAge <= 0){
+                pTxnsAge.setError("Ingrese una edad en el siguiente rango [1,125].");
+                return result;
+            }
         }
-        // verifica para insertar
-        if(name.length() <= 0 || lastName.length() <=0 || (age <= 0 || age > 125)) {
-            if(name.length() <= 0){
-                txfName.setError("El nombre no puede estar en blanco");
-            }
-            if(lastName.length() <= 0){
-                txfLastName.setError("El apellido no puede estar en blanco");
-            }
-            if(age <= 0 || age > 125){
-                txnsAge.setError("Ingrese una edad que pertenesca al rango [1-125]");
-            }
-        } else {
-            //try {
-                MySqlConnection connection = new MySqlConnection("192.168.100.19", "3306", "ProgramaMovil", "root", "Adrian.b.g.7");
-                int result = connection.getSt().executeUpdate("call usp_Create_Formulario(\"" + name + "\", \"" + lastName + "\", " + age +  ")");
-                txfName.setText("");
-                txnsAge.setText("");
-                txfLastName.setText("");
-            //} catch (Exception e){
-            //    System.out.println("se cayo esta basura");
-            //}
-
-        }
+        return !result;
     }
 
-    
+    private void insertOnDataBase(EditText txfName, EditText txfLastName, EditText txnsAge) {
+        String name = txfName.getText().toString();
+        String lastName = txfLastName.getText().toString();
+        String age = txnsAge.getText().toString();
+
+        try {
+            //MySqlConnection connection = new MySqlConnection("192.168.100.19", "3306", "ProgramaMovil", "root", "Adrian.b.g.7");
+            SqlServerConnection connection = new SqlServerConnection("192.168.100.32",  "ProgramaMovil", "programaMovil", "Adrian.b.g.7");
+            int result = connection.getSt().executeUpdate("exec usp_Create_Formulario '"+ name + "', '" + lastName + "'," + age);
+            txfName.setText("");
+            txnsAge.setText("");
+            txfLastName.setText("");
+            connection.getConnection().close();
+
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
 }

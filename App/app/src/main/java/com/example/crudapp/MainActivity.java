@@ -2,6 +2,7 @@ package com.example.crudapp;
 
 import android.os.Bundle;
 
+import com.example.crudapp.Modelo.SqlServerConnection;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
@@ -14,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.crudapp.ui.main.SectionsPagerAdapter;
+
+import java.sql.SQLException;
 
 public class MainActivity extends AppCompatActivity {
 
